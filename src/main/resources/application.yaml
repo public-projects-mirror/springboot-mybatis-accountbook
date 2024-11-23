@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    active: dev
+
+#application-dev.yaml
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: your-mysql-url
+#    username: your-mysql-username
+#    password: your-mysql-password
+#
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
