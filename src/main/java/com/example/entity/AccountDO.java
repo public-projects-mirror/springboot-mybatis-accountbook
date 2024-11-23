@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -11,19 +12,19 @@ public class AccountDO {
     @TableId("account_id")
     private String accountId;
 
-    @TableId
+    @TableField("amount")
     private BigDecimal amount;
 
-    @TableId
+    @TableField("date")
     private LocalDate date;
 
-    @TableId
+    @TableField("category")
     private String category;
 
-    @TableId
+    @TableField("type")
     private String type;
 
-    @TableId
+    @TableField("remarks")
     private String remarks;
 
     public String getAccountId() {

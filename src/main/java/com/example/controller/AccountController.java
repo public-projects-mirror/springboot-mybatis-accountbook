@@ -30,7 +30,7 @@ public class AccountController {
         String category = addAccountRequest.getCategory();
         String type = addAccountRequest.getType();
         String remarks = addAccountRequest.getRemarks();
-        AccountDTO accountDTO = accountService.save(amount, category, type, remarks);
+        AccountDTO accountDTO = accountService.saveAccount(amount, category, type, remarks);
         ApiResponse<AccountVO> apiResponse = new ApiResponse<>();
         apiResponse.setStatus(HttpStatus.OK);
         apiResponse.setData(new AccountVO(accountDTO));
@@ -40,7 +40,7 @@ public class AccountController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/list")
     public ApiResponse<List<AccountVO>> getAllAccounts() {
-        List<AccountVO> accountVOList = accountService.listAll()
+        List<AccountVO> accountVOList = accountService.listAllAccounts()
                 .stream()
                 .map(AccountVO::new)
                 .toList();
@@ -54,7 +54,7 @@ public class AccountController {
     @RequestMapping(method = RequestMethod.POST, value = "/get")
     public ApiResponse<AccountVO> getAccountById(@RequestBody AccountIdRequest accountIdRequest) {
         String accountId = accountIdRequest.getAccountId();
-        AccountDTO accountDTO = accountService.get(accountId);
+        AccountDTO accountDTO = accountService.getAccount(accountId);
         ApiResponse<AccountVO> apiResponse = new ApiResponse<>();
         apiResponse.setStatus(HttpStatus.OK);
         apiResponse.setData(new AccountVO(accountDTO));
@@ -63,7 +63,7 @@ public class AccountController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/update")
-    public ApiResponse<AccountVO> updateAccount(@RequestBody UpdateRequest updateRequest) {
+    public ApiResponse<AccountVO> updateAccountById(@RequestBody UpdateRequest updateRequest) {
         AccountIdRequest accountIdRequest = updateRequest.getAccountIdRequest();
         UpdateAccountRequest updateAccountRequest = updateRequest.getUpdateAccountRequest();
         String accountId = accountIdRequest.getAccountId();
@@ -71,7 +71,7 @@ public class AccountController {
         String category = updateAccountRequest.getCategory();
         String type = updateAccountRequest.getType();
         String remarks = updateAccountRequest.getRemarks();
-        AccountDTO accountDTO = accountService.update(accountId, amount, category, type, remarks);
+        AccountDTO accountDTO = accountService.updateAccount(accountId, amount, category, type, remarks);
         ApiResponse<AccountVO> apiResponse = new ApiResponse<>();
         apiResponse.setStatus(HttpStatus.OK);
         apiResponse.setData(new AccountVO(accountDTO));
@@ -80,9 +80,9 @@ public class AccountController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete")
-    public ApiResponse<String> deleteAccount(@RequestBody AccountIdRequest accountIdRequest) {
+    public ApiResponse<String> deleteAccountById(@RequestBody AccountIdRequest accountIdRequest) {
         String accountId = accountIdRequest.getAccountId();
-        accountService.delete(accountId);
+        accountService.deleteAccount(accountId);
         ApiResponse<String> apiResponse = new ApiResponse<>();
         apiResponse.setStatus(HttpStatus.OK);
         apiResponse.setMessage("delete success");
