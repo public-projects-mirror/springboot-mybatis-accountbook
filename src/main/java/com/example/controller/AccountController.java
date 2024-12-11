@@ -1,10 +1,7 @@
 package com.example.controller;
 
 import com.example.dto.AccountDTO;
-import com.example.model.DeleteAccountRequest;
-import com.example.model.AddAccountRequest;
-import com.example.model.UpdateAccountRequest;
-import com.example.model.UpdateRequest;
+import com.example.model.*;
 import com.example.response.ApiResponse;
 import com.example.service.AccountService;
 import com.example.vo.AccountVO;
@@ -49,8 +46,8 @@ public class AccountController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/get")
-    public ApiResponse<AccountVO> getAccountById(@RequestBody DeleteAccountRequest deleteAccountRequest) {
-        String accountId = deleteAccountRequest.getAccountId();
+    public ApiResponse<AccountVO> getAccountById(@RequestBody GetAccountRequest getAccountRequest) {
+        String accountId = getAccountRequest.getAccountId();
         AccountDTO accountDTO = accountService.getAccount(accountId);
         ApiResponse<AccountVO> apiResponse = new ApiResponse<>();
         apiResponse.setStatus(HttpStatus.OK);
@@ -61,9 +58,8 @@ public class AccountController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/update")
     public ApiResponse<AccountVO> updateAccountById(@RequestBody UpdateRequest updateRequest) {
-        DeleteAccountRequest deleteAccountRequest = updateRequest.getAccountIdRequest();
         UpdateAccountRequest updateAccountRequest = updateRequest.getUpdateAccountRequest();
-        String accountId = deleteAccountRequest.getAccountId();
+        String accountId = updateRequest.getAccountId();
         BigDecimal amount = updateAccountRequest.getAmount();
         String category = updateAccountRequest.getCategory();
         String type = updateAccountRequest.getType();
