@@ -4,6 +4,7 @@ import com.example.dto.AccountDTO;
 import com.example.model.*;
 import com.example.response.ApiResponse;
 import com.example.service.AccountService;
+import com.example.service.CategoryService;
 import com.example.vo.AccountVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/accounts")
+@CrossOrigin
 public class AccountController {
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/add")
     public ApiResponse<AccountVO> addAccount(@RequestBody AddAccountRequest addAccountRequest) {
@@ -25,6 +30,9 @@ public class AccountController {
         String type = addAccountRequest.getType();
         String remarks = addAccountRequest.getRemarks();
         AccountDTO accountDTO = accountService.saveAccount(amount, category, type, remarks);
+        if (!categoryService.CategoryExist(category)) {
+            categoryService.saveCategory(category);
+        }
         ApiResponse<AccountVO> apiResponse = new ApiResponse<>();
         apiResponse.setStatus(HttpStatus.OK);
         apiResponse.setData(new AccountVO(accountDTO));
@@ -64,6 +72,9 @@ public class AccountController {
         String category = updateAccountRequest.getCategory();
         String type = updateAccountRequest.getType();
         String remarks = updateAccountRequest.getRemarks();
+        if (!categoryService.CategoryExist(category)) {
+            categoryService.saveCategory(category);
+        }
         AccountDTO accountDTO = accountService.updateAccount(accountId, amount, category, type, remarks);
         ApiResponse<AccountVO> apiResponse = new ApiResponse<>();
         apiResponse.setStatus(HttpStatus.OK);
