@@ -1,13 +1,9 @@
 package com.example.model;
 
-public class AccountIdRequest {
+public class DeleteAccountRequest {
     private String accountId;
 
     public String getAccountId() {
         return accountId;
-    }
-
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
     }
 }

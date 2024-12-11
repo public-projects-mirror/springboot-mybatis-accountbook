@@ -1,11 +1,11 @@
 package com.example.model;
 
 public class UpdateRequest {
-    private AccountIdRequest accountIdRequest;
+    private DeleteAccountRequest deleteAccountRequest;
     private UpdateAccountRequest updateAccountRequest;
 
-    public AccountIdRequest getAccountIdRequest() {
-        return accountIdRequest;
+    public DeleteAccountRequest getAccountIdRequest() {
+        return deleteAccountRequest;
     }
 
     public UpdateAccountRequest getUpdateAccountRequest() {
