@@ -11,12 +11,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/accounts")
 @CrossOrigin
-public class AccountController {
+public class
+
+AccountController {
     @Autowired
     private AccountService accountService;
 
@@ -26,10 +29,11 @@ public class AccountController {
     @RequestMapping(method = RequestMethod.POST, value = "/add")
     public ApiResponse<AccountVO> addAccount(@RequestBody AddAccountRequest addAccountRequest) {
         BigDecimal amount = addAccountRequest.getAmount();
+        LocalDate date = addAccountRequest.getDate();
         String category = addAccountRequest.getCategory();
         String type = addAccountRequest.getType();
         String remarks = addAccountRequest.getRemarks();
-        AccountDTO accountDTO = accountService.saveAccount(amount, category, type, remarks);
+        AccountDTO accountDTO = accountService.saveAccount(amount, date, category, type, remarks);
         if (!categoryService.CategoryExist(category)) {
             categoryService.saveCategory(category);
         }
@@ -113,8 +117,8 @@ public class AccountController {
 
     // 按类别汇总收入
     @RequestMapping(method = RequestMethod.GET, value ="/income-by-category")
-    public BigDecimal getIncomeByCategory(@RequestParam String categoryId) {
-        return accountService.getIncomeByCategory(categoryId);
+    public BigDecimal getIncomeByCategory(@RequestParam String categoryName) {
+        return accountService.getIncomeByCategory(categoryName);
     }
 
     // 按月汇总支出
@@ -125,15 +129,15 @@ public class AccountController {
 
     // 按类别汇总支出
     @RequestMapping(method = RequestMethod.GET, value ="/expense-by-category")
-    public BigDecimal getExpenseByCategory(@RequestParam String categoryId) {
-        return accountService.getExpenseByCategory(categoryId);
+    public BigDecimal getExpenseByCategory(@RequestParam String categoryName) {
+        return accountService.getExpenseByCategory(categoryName);
     }
 
     // 自定义汇总支出
     @RequestMapping(method = RequestMethod.GET, value = "/custom-input")
     public BigDecimal getCustomInput(@RequestParam String type,@RequestParam String month,
-                                     @RequestParam String categoryId) {
-        return accountService.getTotalAmount(type, month, categoryId);
+                                     @RequestParam String categoryName) {
+        return accountService.getTotalAmount(type, month, categoryName);
     }
 
 }

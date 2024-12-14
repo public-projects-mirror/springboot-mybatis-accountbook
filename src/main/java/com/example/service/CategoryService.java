@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.dto.CategoryDTO;
 import com.example.entity.CategoryDO;
@@ -26,8 +27,10 @@ public class CategoryService extends ServiceImpl<CategoryMapper, CategoryDO> {
     }
 
     public Boolean CategoryExist(String categoryName) {
-        CategoryDO categoryDO = this.getById(categoryName);
-        return categoryDO != null;
+        LambdaQueryWrapper<CategoryDO> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(CategoryDO::getCategoryName, categoryName);
+        List<CategoryDO> categoryDOS = this.baseMapper.selectList(lambdaQueryWrapper);
+        return !categoryDOS.isEmpty();
     }
 
     @Transactional

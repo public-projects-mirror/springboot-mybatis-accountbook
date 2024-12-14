@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -18,10 +19,11 @@ import java.util.stream.Collectors;
 public class AccountService extends ServiceImpl<AccountMapper, AccountDO> {
 
     @Transactional
-    public AccountDTO saveAccount(BigDecimal amount, String category, String type, String remarks) {
+    public AccountDTO saveAccount(BigDecimal amount, LocalDate date, String category, String type, String remarks) {
         AccountDO newAccount = new AccountDO();
         newAccount.setAccountId(UUID.randomUUID().toString());
         newAccount.setAmount(amount);
+        newAccount.setDate(date);
         newAccount.setCategory(category);
         newAccount.setType(type);
         newAccount.setRemarks(remarks);
@@ -71,7 +73,7 @@ public class AccountService extends ServiceImpl<AccountMapper, AccountDO> {
     }
 
     // 通用汇总函数
-    public BigDecimal getTotalAmount(String type, String month, String categoryId) {
+    public BigDecimal getTotalAmount(String type, String month, String categoryName) {
         QueryWrapper<AccountDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("type", type);  // 收入或支出
 
@@ -81,8 +83,8 @@ public class AccountService extends ServiceImpl<AccountMapper, AccountDO> {
         }
 
         // 按类别汇总
-        if (categoryId != null && !categoryId.isEmpty()) {
-            queryWrapper.eq("category_id", categoryId);  // 按类别筛选
+        if (categoryName != null && !categoryName.isEmpty()) {
+            queryWrapper.eq("category", categoryName);  // 按类别筛选
         }
 
         // 查询并汇总金额
